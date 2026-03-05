@@ -73,6 +73,15 @@ class DatabaseHelper {
     }
   }
 
+  Future<void> ensureProductsSeeded() async {
+    final db = await database;
+    final res = await db.rawQuery('SELECT COUNT(*) as c FROM products');
+    final count = (res.first['c'] as int?) ?? 0;
+    if (count == 0) {
+      await _seedProducts(db);
+    }
+  }
+
   Future<List<Product>> getProducts() async {
     final db = await database;
     final maps = await db.query('products', orderBy: 'id DESC');
