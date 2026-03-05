@@ -8,16 +8,24 @@ import 'screens/product_list_screen.dart';
 import 'screens/checkout_screen.dart';
 import 'screens/confirmation_screen.dart';
 import 'screens/payment_history_screen.dart';
+import 'data/database_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(PaymentInfoAdapter());
   await Hive.openBox<PaymentInfo>('payments');
+  await DatabaseService.instance.db;
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(
+          create: (_) {
+            final cp = CartProvider();
+            cp.init();
+            return cp;
+          },
+        ),
       ],
       child: MyApp(),
     ),

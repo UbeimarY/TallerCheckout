@@ -1,10 +1,14 @@
+#if !defined(__has_include)
+#define __has_include(x) 0
+#endif
+#if !__has_include(<flutter_linux/flutter_linux.h>)
+int my_application_placeholder;
+#else
 #include "my_application.h"
-
 #include <flutter_linux/flutter_linux.h>
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
 #endif
-
 #include "flutter/generated_plugin_registrant.h"
 
 struct _MyApplication {
@@ -146,3 +150,4 @@ MyApplication* my_application_new() {
                                      "application-id", APPLICATION_ID, "flags",
                                      G_APPLICATION_NON_UNIQUE, nullptr));
 }
+#endif
